@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Índice personal de recursos: busca, filtra y abre todos tus enlaces desde un solo lugar.">
+  <meta name="theme-color" content="#EDF1F0">
+  <title>JM Personal · Índice de recursos</title>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f6e68'/%3E%3Ctext x='16' y='21.5' font-family='Arial,Helvetica,sans-serif' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle'%3EJM%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead">
+    <div class="masthead__inner">
+      <a class="wordmark" href="#" aria-label="Inicio · JM Personal">
+        <span class="wordmark__monogram" aria-hidden="true">JM</span>
+        <span class="wordmark__text">
+          <strong>Personal</strong>
+          <small>Colección de recursos</small>
+        </span>
+      </a>
+
+      <div class="masthead__meta">
+        <span class="count-badge" id="totalBadge" role="status" aria-live="polite" title="Recursos cargados">
+          <span class="count-badge__num" id="totalCount">0</span>
+          <span class="count-badge__label">recursos</span>
+        </span>
+        <button id="themeToggle" class="icon-btn" type="button" aria-label="Cambiar a modo oscuro" title="Cambiar tema">
+          <svg class="icon-theme-light" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-theme-dark" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ PORTADA DEL ÍNDICE ============ -->
+  <div class="page-head">
+    <div class="page-head__inner">
+      <div class="page-head__lead">
+        <h1 class="page-head__title">Índice de recursos</h1>
+        <p class="page-head__desc">Todo tu material reunido en un solo lugar. Elige una hoja en el índice, busca por nombre, uso o enlace y abre cualquier recurso al instante.</p>
+      </div>
+      <div class="page-head__meta">
+        <span class="meta-label">Fuente de datos</span>
+        <span class="source-chip" id="sourceName" title="Archivo desde el que se cargaron los recursos">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CATÁLOGO: ÍNDICE + RESULTADOS ============ -->
+  <div class="catalog">
+
+    <!-- Índice lateral de hojas -->
+    <aside class="catalog__aside" aria-label="Índice de hojas">
+      <p class="aside__title" id="asideTitle">Hojas</p>
+      <nav id="categoryIndex" class="index-list" aria-labelledby="asideTitle" aria-label="Hojas del Excel"></nav>
+    </aside>
+
+    <!-- Columna principal -->
+    <main id="main" class="catalog__main" aria-busy="false">
+
+      <!-- Herramientas -->
+      <section class="toolbar" aria-label="Búsqueda, filtros y acciones">
+        <div class="toolbar__search">
+          <div class="search" role="search">
+            <svg class="search__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input id="searchInput" type="search" placeholder="Buscar en esta hoja…" autocomplete="off" aria-label="Buscar recursos en la hoja activa" aria-describedby="resultsText">
+            <button id="clearSearch" class="search__clear" type="button" aria-label="Borrar búsqueda" hidden>
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <kbd class="search__kbd" aria-hidden="true">/</kbd>
+          </div>
+        </div>
+
+        <div class="toolbar__bar">
+          <div class="toolbar__group">
+            <div class="select-wrap">
+              <label class="sr-only" for="sortSelect">Ordenar recursos</label>
+              <select id="sortSelect" class="select" aria-label="Ordenar recursos">
+                <option value="nameAsc">Nombre (A–Z)</option>
+                <option value="nameDesc">Nombre (Z–A)</option>
+                <option value="categoryAsc">Categoría (A–Z)</option>
+                <option value="categoryDesc">Categoría (Z–A)</option>
+              </select>
+            </div>
+
+            <div class="view-toggle" role="group" aria-label="Cambiar vista">
+              <button id="viewIndex" class="icon-btn" type="button" aria-label="Vista índice" aria-pressed="false" title="Vista índice">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              </button>
+              <button id="viewGrid" class="icon-btn is-active" type="button" aria-label="Vista cuadrícula" aria-pressed="true" title="Vista cuadrícula">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              </button>
+              <button id="viewTable" class="icon-btn" type="button" aria-label="Vista tabla" aria-pressed="false" title="Vista tabla">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="21"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="toolbar__group toolbar__group--actions">
+            <button id="btnUpload" class="btn btn--primary" type="button">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 16l-4-4-4 4M12 12v9"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+              Cargar Excel
+            </button>
+            <button id="btnExport" class="btn" type="button">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Exportar
+            </button>
+          </div>
+        </div>
+
+        <div class="toolbar__status">
+          <span id="resultsText" aria-live="polite">Mostrando 0 de 0 recursos</span>
+          <button id="clearFilters" class="btn-link" type="button" hidden>Quitar filtros</button>
+        </div>
+      </section>
+
+      <!-- Vista cuadrícula (por defecto) -->
+      <section id="resourcesView" class="resources" aria-label="Recursos en cuadrícula"></section>
+
+      <!-- Vista índice (compacta) -->
+      <section id="indexView" class="entries" hidden aria-label="Recursos en vista índice"></section>
+
+      <!-- Vista tabla -->
+      <section id="tableWrap" class="table-wrap" hidden>
+        <table class="data-table" aria-label="Recursos en vista de tabla">
+          <thead>
+            <tr>
+              <th scope="col">Categoría / Hoja</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Uso / Descripción</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </section>
+
+      <!-- Sin resultados -->
+      <div id="noResults" class="empty-note" role="status" hidden>
+        <svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        <h2>Sin coincidencias</h2>
+        <p id="noResultsText">Prueba con otra palabra clave o quita los filtros activos.</p>
+        <button id="resetSearchBtn" class="btn btn--primary" type="button">Limpiar búsqueda</button>
+      </div>
+
+      <!-- Estado inicial: sin datos -->
+      <section id="emptyState" class="empty-state" aria-labelledby="dropzoneTitle">
+        <div class="dropzone" role="button" tabindex="0" aria-label="Arrastra tu archivo Excel aquí o presiona para seleccionarlo">
+          <svg class="dropzone__icon" viewBox="0 0 24 24" width="50" height="50" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14.5 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9.5L14.5 4z"/>
+            <polyline points="14 4 14 10 20 10"/>
+            <line x1="12" y1="14" x2="12" y2="20"/>
+            <line x1="9" y1="17" x2="15" y2="17"/>
+          </svg>
+          <h2 id="dropzoneTitle">Arrastra tu archivo Excel aquí</h2>
+          <p>o presiona para seleccionarlo. Formatos <strong>.xlsx</strong>, <strong>.xls</strong> o <strong>.csv</strong></p>
+          <button id="btnPickFirst" class="btn btn--primary" type="button">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 16l-4-4-4 4M12 12v9"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+            Seleccionar archivo Excel
+          </button>
+          <p class="dropzone__hint">Se detectan las columnas <strong>NOMBRE · USO · LINK</strong> y <strong>LINK DE VIDEOS</strong> automáticamente. Cada <strong>hoja</strong> del Excel aparece en el índice izquierdo; las hojas de apuntes se muestran fila por fila como tarjetas.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <input id="fileInput" type="file" accept=".xlsx,.xls,.csv" hidden>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <p>Índice de recursos. Tus datos se guardan solo en este navegador (localStorage).</p>
+  </footer>
+
+  <!-- Overlay de arrastrar -->
+  <div id="dropOverlay" class="drop-overlay" aria-hidden="true" hidden>
+    <div class="drop-overlay__inner">
+      <svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <p><strong>Suelta el archivo Excel</strong> para cargarlo</p>
+    </div>
+  </div>
+
+  <!-- Notificaciones -->
+  <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="false"></div>
+
+  <script src="js/vendor/xlsx.full.min.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/excelHandler.js"></script>
+  <script src="js/search.js"></script>
+  <script src="data/recursos.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
