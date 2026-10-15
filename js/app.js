@@ -131,17 +131,31 @@
     }
   }
 
-  /* ---------- Hojas (conteo + colores) ---------- */
+  /* ---------- Hojas (conteo + coincidencias + colores) ---------- */
   function buildCategoryList() {
     const counts = {};
     for (const r of state.resources) {
       const c = r.hoja || 'Sin hoja';
       counts[c] = (counts[c] || 0) + 1;
     }
+
+    const terms = JMSearch.termsFromQuery(state.query);
+    const searching = terms.length > 0;
+    const matchCounts = {};
+    if (searching) {
+      for (const r of state.resources) {
+        if (JMSearch.resourceMatches(r, terms)) {
+          const c = r.hoja || 'Sin hoja';
+          matchCounts[c] = (matchCounts[c] || 0) + 1;
+        }
+      }
+    }
     return Object.keys(counts)
       .map(name => ({
         name,
         count: counts[name],
+        matches: searching ? (matchCounts[name] || 0) : counts[name],
+        searching: searching,
         color: categoryColor(name)
       }))
       .sort((a, b) => {
@@ -162,13 +176,18 @@
     const box = $('#categoryIndex');
     const cats = buildCategoryList();
     box.innerHTML = cats.map((c) => {
-      const active = state.category === c.name;
-      return '<button type="button" class="index-item' + (active ? ' is-active' : '') + '"' +
+      const searching = c.searching;
+      const active = !searching && state.category === c.name;
+      const empty = searching && c.matches === 0;
+      const label = searching
+        ? c.matches + (c.matches === 1 ? ' coincidencia' : ' coincidencias') + ' en «' + c.name + '»'
+        : c.count + (c.count === 1 ? ' recurso en ' : ' recursos en ') + '«' + c.name + '»';
+      return '<button type="button" class="index-item' + (active ? ' is-active' : '') + (empty ? ' is-empty' : '') + '"' +
         ' data-category="' + JMSearch.escapeAttr(c.name) + '" aria-pressed="' + active + '"' +
-        ' style="--cat:' + c.color + '" title="' + JMSearch.escapeAttr(c.name) + '">' +
+        ' style="--cat:' + c.color + '" title="' + JMSearch.escapeAttr(label) + '">' +
         '<span class="index-item__dot"></span>' +
         '<span class="index-item__label">' + JMSearch.escapeHtml(c.name) + '</span>' +
-        '<span class="index-item__count">' + c.count + '</span></button>';
+        '<span class="index-item__count">' + c.matches + '</span></button>';
     }).join('');
   }
 
@@ -323,7 +342,18 @@
     const sorted = JMSearch.sortResources(filtered, state.sort);
 
     $('#totalCount').textContent = state.resources.length;
-    $('#resultsText').innerHTML = 'Mostrando <strong>' + sorted.length + '</strong> de <strong>' + state.resources.length + '</strong> recursos';
+
+    const terms = JMSearch.termsFromQuery(state.query);
+    const searching = terms.length > 0;
+    let resultsHtml = 'Mostrando <strong>' + sorted.length + '</strong> de <strong>' + state.resources.length + '</strong> recursos';
+    if (searching && sorted.length) {
+      const sheetsWithHits = new Set(sorted.map(r => r.hoja || 'Sin hoja')).size;
+      resultsHtml += ' · <strong>' + sorted.length + '</strong> coincidencia' + (sorted.length === 1 ? '' : 's') +
+        ' en <strong>' + sheetsWithHits + '</strong> hoja' + (sheetsWithHits === 1 ? '' : 's');
+    } else if (!searching) {
+      resultsHtml += ' en esta hoja';
+    }
+    $('#resultsText').innerHTML = resultsHtml;
 
     const source = $('#sourceName');
     if (source) {
@@ -362,7 +392,7 @@
       const noteText = $('#noResultsText');
       if (noteText) {
         noteText.textContent = state.query
-          ? 'No se encontraron recursos para «' + state.query + '» en esta hoja.'
+          ? 'No se encontraron recursos para «' + state.query + '» en ningún índice, hoja o enlace.'
           : 'Esta hoja no tiene recursos que mostrar.';
       }
       $('#main').setAttribute('aria-busy', 'false');

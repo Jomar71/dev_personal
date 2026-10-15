@@ -110,6 +110,25 @@ a:hover { color: var(--signal); }
   border: 0;
 }
 
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(-120%);
+  z-index: 80;
+  margin: 10px;
+  padding: 9px 14px;
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 13px;
+  box-shadow: var(--shadow-pop);
+  transition: transform var(--t);
+}
+.skip-link:focus { transform: translateY(0); }
+
 :focus-visible {
   outline: 2px solid var(--signal);
   outline-offset: 2px;
@@ -332,6 +351,7 @@ a:hover { color: var(--signal); }
 }
 
 .catalog__main { min-width: 0; }
+.catalog__main:focus { outline: none; }
 
 /* ---------- Índice lateral de categorías ---------- */
 .catalog__aside {
@@ -399,6 +419,12 @@ a:hover { color: var(--signal); }
   box-shadow: var(--shadow-1);
 }
 .index-item.is-active .index-item__count { color: var(--ink); }
+
+/* En modo búsqueda global: se atenúan las hojas sin coincidencias */
+.index-item.is-empty { opacity: .5; }
+.index-item.is-empty .index-item__dot { background: var(--line-strong) !important; }
+.index-item.is-empty .index-item__count { color: var(--line-strong); }
+.index-item.is-empty:hover { opacity: .8; }
 
 /* ============================================================
    TOOLBAR

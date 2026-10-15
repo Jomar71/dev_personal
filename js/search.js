@@ -59,18 +59,28 @@
     return terms.every(t => hay.includes(t));
   }
 
-  /* --- Filtrado integral: hoja (grupo) + consulta (hoja/nombre/uso/link/video) --- */
+  /* --- ¿Un recurso coincide con los términos ya normalizados? --- */
+  function resourceMatches(res, terms) {
+    if (!terms.length) return true;
+    return textMatches(searchableText(res), terms);
+  }
+
+  /* --- Filtrado integral: hoja (grupo) + consulta (hoja/nombre/uso/link/video) ---
+     Cuando hay consulta, la búsqueda es GLOBAL: recorre todos los recursos de
+     todas las hojas/índices, ignorando la hoja activa para no ocultar coincidencias. --- */
   function filterResources(resources, query, activeSheet) {
     const terms = termsFromQuery(query);
-    let list = resources;
 
+    if (terms.length) {
+      return resources.filter(res => resourceMatches(res, terms));
+    }
+
+    let list = resources;
     if (activeSheet && activeSheet !== 'all') {
       const target = fold(activeSheet);
       list = list.filter(r => fold(r.hoja || 'Sin hoja') === target);
     }
-
-    if (terms.length === 0) return list;
-    return list.filter(res => textMatches(searchableText(res), terms));
+    return list;
   }
 
   /* --- Ordenamiento --- */
@@ -143,6 +153,7 @@
   window.JMSearch = {
     fold,
     termsFromQuery,
+    resourceMatches,
     filterResources,
     sortResources,
     highlight,

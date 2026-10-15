@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Saltar al contenido principal</a>
 
   <!-- ============ MASTHEAD ============ -->
   <header class="masthead">
@@ -65,14 +66,15 @@
     </aside>
 
     <!-- Columna principal -->
-    <main id="main" class="catalog__main" aria-busy="false">
+    <main id="main" class="catalog__main" aria-busy="false" tabindex="-1">
+      <h2 class="sr-only">Listado de recursos</h2>
 
       <!-- Herramientas -->
       <section class="toolbar" aria-label="Búsqueda, filtros y acciones">
         <div class="toolbar__search">
           <div class="search" role="search">
             <svg class="search__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input id="searchInput" type="search" placeholder="Buscar en esta hoja…" autocomplete="off" aria-label="Buscar recursos en la hoja activa" aria-describedby="resultsText">
+            <input id="searchInput" type="search" placeholder="Buscar en todos los recursos, enlaces o textos…" autocomplete="off" aria-label="Buscar en todos los recursos, hojas y enlaces" aria-describedby="resultsText">
             <button id="clearSearch" class="search__clear" type="button" aria-label="Borrar búsqueda" hidden>
               <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
@@ -132,6 +134,7 @@
       <!-- Vista tabla -->
       <section id="tableWrap" class="table-wrap" hidden>
         <table class="data-table" aria-label="Recursos en vista de tabla">
+          <caption class="sr-only">Listado de recursos con categoría, nombre, uso y acciones</caption>
           <thead>
             <tr>
               <th scope="col">Categoría / Hoja</th>
