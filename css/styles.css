@@ -5,9 +5,9 @@
 /* Hallmark · pre-emit critique: P4 H4 E5 S4 R4 V4 · weakest: S, el índice de hojas con conteos y la fuente del archivo mandan en la primera fila */
 /* Hallmark · hero-review: skipped · app screen, no hero */
 /* Hallmark · finish-review: subagent · 6 findings · 6 resolved · gap: dismissed · dark state follows the browser preference */
-/* Hallmark · verification: seed regenerated from links.xlsx · 1271 in file and http · responsive 320-1920 clean · search, filters, views, sort, theme and export pass · palette sharpened and cache-busted · credited library photograph as fixed page background with scrim, paused transform loop and pointer ripple */
-@import url("./tokens.css?v=20261125e");
-@import url("./base.css?v=20261125e");
+/* Hallmark · verification: seed regenerated from links.xlsx · 1271 in file and http · responsive 320-1920 clean · search, filters, views, sort, theme and export pass · palette sharpened and cache-busted · credited library photograph as fixed page background with scrim, no-cache assets, paused loops and canvas water simulation distorting the background */
+@import url("./tokens.css?v=20261125m");
+@import url("./base.css?v=20261125m");
 
 :root { color-scheme: light; }
 [data-theme="dark"] { color-scheme: dark; }
@@ -212,14 +212,8 @@ a:hover { color: var(--color-accent); }
 .page-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: var(--color-paper); }
 .page-bg::after { content: ""; position: absolute; inset: 0; z-index: 1; background: color-mix(in srgb, var(--color-paper) 72%, transparent); }
 .page-bg__img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(0.62) contrast(1.08); animation: bg-drift 14s ease-in-out infinite alternate; }
-.water-ripple { position: fixed; left: var(--x, 50%); top: var(--y, 50%); width: 256px; height: 256px; margin: -128px 0 0 -128px; z-index: 2; pointer-events: none; }
-.water-ripple::before, .water-ripple::after { content: ""; position: absolute; inset: 0; border-radius: 50%; opacity: 0; }
-.water-ripple::before { border: 1px solid color-mix(in srgb, var(--color-accent) 60%, transparent); }
-.water-ripple::after { inset: 25%; border: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent); background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
-.water-ripple.is-active::before { animation: water-ring 680ms ease-out both; }
-.water-ripple.is-active::after { animation: water-ring 680ms ease-out 80ms both; }
-@keyframes water-ring { from { opacity: .5; transform: scale(.18); } to { opacity: 0; transform: scale(1.25); } }
-.masthead, .page-head, .catalog, .site-footer { position: relative; z-index: 1; }
+.water-ripple-canvas { position: fixed; inset: 0; z-index: 1; width: 100%; height: 100%; opacity: .2; pointer-events: none; }
+.masthead, .page-head, .catalog, .site-footer { position: relative; z-index: 2; }
 .motion-toggle { position: absolute; width: 1px; height: 1px; opacity: 0; clip-path: inset(50%); }
 .motion-pause {
   color: var(--color-muted);
@@ -241,7 +235,7 @@ body:has(.motion-pause:focus-visible) .page-bg__img { animation-play-state: paus
 }
 @media (prefers-reduced-motion: reduce) {
   .page-bg__img { animation: none; opacity: .56; transform: none; }
-  .water-ripple { display: none; }
+  .water-ripple-canvas { display: none; }
   .motion-pause { display: none; }
 }
 
