@@ -4,18 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Índice personal de recursos: busca, filtra y abre todos tus enlaces desde un solo lugar.">
-  <meta name="theme-color" content="#EDF1F0">
+  <meta name="theme-color" content="#EEF4F2">
   <title>JM Personal · Índice de recursos</title>
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f6e68'/%3E%3Ctext x='16' y='21.5' font-family='Arial,Helvetica,sans-serif' font-size='14' font-weight='700' fill='%23ffffff' text-anchor='middle'%3EJM%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a7d72'/%3E%3Ctext x='16' y='21.5' font-family='Arial,Helvetica,sans-serif' font-size='14' font-weight='700' fill='%23f7fffd' text-anchor='middle'%3EJM%3C/text%3E%3C/svg%3E">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=20261125e">
 </head>
 <body>
+  <input class="motion-toggle" type="checkbox" id="motionToggle" aria-label="Pausar movimiento del fondo">
+  <div class="page-bg" aria-hidden="true">
+    <img class="page-bg__img" src="images/papierkanten-2020-9535-1920.jpg" alt="" width="1920" height="1440" fetchpriority="high" decoding="async">
+  </div>
+  <div class="water-ripple" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Saltar al contenido principal</a>
 
   <!-- ============ MASTHEAD ============ -->
@@ -34,6 +39,8 @@
           <span class="count-badge__num" id="totalCount">0</span>
           <span class="count-badge__label">recursos</span>
         </span>
+        <label class="motion-pause motion-pause--pause" for="motionToggle">Pausar fondo</label>
+        <label class="motion-pause motion-pause--resume" for="motionToggle">Reanudar fondo</label>
         <button id="themeToggle" class="icon-btn" type="button" aria-label="Cambiar a modo oscuro" title="Cambiar tema">
           <svg class="icon-theme-light" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg class="icon-theme-dark" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -51,7 +58,7 @@
       </div>
       <div class="page-head__meta">
         <span class="meta-label">Fuente de datos</span>
-        <span class="source-chip" id="sourceName" title="Archivo desde el que se cargaron los recursos">—</span>
+        <span class="source-chip" id="sourceName" title="Archivo desde el que se cargaron los recursos">Sin archivo</span>
       </div>
     </div>
   </div>
@@ -87,10 +94,10 @@
             <div class="select-wrap">
               <label class="sr-only" for="sortSelect">Ordenar recursos</label>
               <select id="sortSelect" class="select" aria-label="Ordenar recursos">
-                <option value="nameAsc">Nombre (A–Z)</option>
-                <option value="nameDesc">Nombre (Z–A)</option>
-                <option value="categoryAsc">Categoría (A–Z)</option>
-                <option value="categoryDesc">Categoría (Z–A)</option>
+                <option value="nameAsc">Nombre (A a Z)</option>
+                <option value="nameDesc">Nombre (Z a A)</option>
+                <option value="categoryAsc">Categoría (A a Z)</option>
+                <option value="categoryDesc">Categoría (Z a A)</option>
               </select>
             </div>
 
@@ -152,7 +159,7 @@
         <svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
         <h2>Sin coincidencias</h2>
         <p id="noResultsText">Prueba con otra palabra clave o quita los filtros activos.</p>
-        <button id="resetSearchBtn" class="btn btn--primary" type="button">Limpiar búsqueda</button>
+        <button id="resetSearchBtn" class="btn btn--outline" type="button">Limpiar búsqueda</button>
       </div>
 
       <!-- Estado inicial: sin datos -->
@@ -166,11 +173,11 @@
           </svg>
           <h2 id="dropzoneTitle">Arrastra tu archivo Excel aquí</h2>
           <p>o presiona para seleccionarlo. Formatos <strong>.xlsx</strong>, <strong>.xls</strong> o <strong>.csv</strong></p>
-          <button id="btnPickFirst" class="btn btn--primary" type="button">
+          <button id="btnPickFirst" class="btn btn--outline" type="button">
             <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 16l-4-4-4 4M12 12v9"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
             Seleccionar archivo Excel
           </button>
-          <p class="dropzone__hint">Se detectan las columnas <strong>NOMBRE · USO · LINK</strong> y <strong>LINK DE VIDEOS</strong> automáticamente. Cada <strong>hoja</strong> del Excel aparece en el índice izquierdo; las hojas de apuntes se muestran fila por fila como tarjetas.</p>
+          <p class="dropzone__hint">Se detectan las columnas <strong>NOMBRE</strong>, <strong>USO</strong> y <strong>LINK</strong>, además de <strong>LINK DE VIDEOS</strong>. Cada <strong>hoja</strong> del Excel aparece en el índice izquierdo; las hojas de apuntes se muestran fila por fila como tarjetas.</p>
         </div>
       </section>
 
@@ -182,6 +189,7 @@
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer">
     <p>Índice de recursos. Tus datos se guardan solo en este navegador (localStorage).</p>
+    <p data-credits>Photographs: <a href="https://commons.wikimedia.org/wiki/File:Papierkanten_--_2020_--_9535.jpg">Dietmar Rabich</a> (CC BY-SA 4.0, Wikimedia Commons)</p>
   </footer>
 
   <!-- Overlay de arrastrar -->
@@ -201,5 +209,30 @@
   <script src="js/search.js"></script>
   <script src="data/recursos.js"></script>
   <script src="js/app.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var ripple = document.querySelector('.water-ripple');
+      var lastCell = '';
+      var lastTime = 0;
+      document.addEventListener('pointermove', function (event) {
+        if (event.pointerType === 'touch') return;
+        var now = performance.now();
+        var cell = Math.floor(event.clientX / 140) + ':' + Math.floor(event.clientY / 140);
+        if (cell === lastCell || now - lastTime < 120) return;
+        lastCell = cell;
+        lastTime = now;
+        ripple.style.setProperty('--x', event.clientX + 'px');
+        ripple.style.setProperty('--y', event.clientY + 'px');
+        ripple.classList.remove('is-active');
+        void ripple.offsetWidth;
+        ripple.classList.add('is-active');
+      }, { passive: true });
+      document.addEventListener('pointerleave', function () {
+        ripple.classList.remove('is-active');
+      });
+    })();
+  </script>
 </body>
 </html>

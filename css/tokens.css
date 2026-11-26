@@ -1,0 +1,53 @@
+:root {
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.2rem; --text-xl: 1.44rem; --text-2xl: 1.728rem; --text-3xl: 2.074rem;
+  --text-display-s: 1.44rem; --text-display: 1.728rem; --text-section: 1.2rem; --text-title: 1rem; --text-lead: 1rem;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in: cubic-bezier(0.7, 0, 0.84, 0); --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;
+  --color-error: oklch(52% 0.19 27); --color-success: oklch(50% 0.12 150);
+  --container: 1440px; --gutter: 64px; --gap-columns: 32px; --section-gap-s: 120px; --section-gap: 144px; --section-gap-l: 176px;
+  --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;
+
+  --color-paper: #eef4f2;
+  --color-paper-2: #dbe9e5;
+  --color-paper-3: #c8ddd7;
+  --color-ink: #0a2622;
+  --color-ink-2: #38534d;
+  --color-muted: #4b665f;
+  --color-rule: #b9d0c9;
+  --color-accent: #0a7d72;
+  --color-accent-strong: #075f57;
+  --color-accent-soft: #bfe3da;
+  --color-accent-ink: #f7fffd;
+  --color-focus: #075f57;
+  --color-mark: #bfe3da;
+
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-outlier: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --radius-card: 6px; --radius-inner: 4px; --radius-pill: 999px; --rule-hair: 1px; --shadow-card: none;
+  --tracking-display: -0.02em;
+  --display-weight: 600;
+  --masthead-h: 64px;
+  --rail-w: 240px;
+  --search-pad-left: 44px;
+}
+
+[data-theme="dark"] {
+  --color-paper: #061512;
+  --color-paper-2: #0c2723;
+  --color-paper-3: #143a34;
+  --color-ink: #e9f7f3;
+  --color-ink-2: #a9c8c0;
+  --color-muted: #86a9a0;
+  --color-rule: #1e4b43;
+  --color-accent: #3ddcc7;
+  --color-accent-strong: #6df0dd;
+  --color-accent-soft: #103c35;
+  --color-accent-ink: #04120f;
+  --color-focus: #6df0dd;
+  --color-mark: #1b4a41;
+  --color-error: #f0817a;
+  --color-success: #4ec48c;
+}
